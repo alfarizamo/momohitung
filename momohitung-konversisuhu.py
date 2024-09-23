@@ -1,32 +1,38 @@
 import streamlit as st
 
+# Input suhu dan satuan
 x = st.number_input("Masukkan nilai suhu")
-sx = st.text_input("Satuan awal (C/F/K)", "C")
-sy = st.text_input("Satuan tujuan (C/F/K)", "C")
+sx = st.text_input("Satuan awal", "C")
+st.write("Nilai suhu", x, ' ', sx)
+sy = st.text_input("Satuan tujuan", "C")
 
-def convert_temperature(value, from_unit, to_unit):
-    if from_unit == to_unit:
-        return value
-    if from_unit == "C":
-        if to_unit == "F":
-            return value * 9/5 + 32
-        elif to_unit == "K":
-            return value + 273.15
-    elif from_unit == "F":
-        if to_unit == "C":
-            return (value - 32) * 5/9
-        elif to_unit == "K":
-            return (value - 32) * 5/9 + 273.15
-    elif from_unit == "K":
-        if to_unit == "C":
-            return value - 273.15
-        elif to_unit == "F":
-            return (value - 273.15) * 9/5 + 32
-    return None
+# Inisialisasi hasil konversi
+y = 0
 
-result = convert_temperature(x, sx.upper(), sy.upper())
-
-if result is not None:
-    st.write(f"{x} {sx.upper()} = {result:.2f} {sy.upper()}")
+# Konversi suhu berdasarkan satuan awal dan tujuan
+if sx == 'C':
+    if sy == 'C':
+        y = x  # Tidak ada perubahan
+    elif sy == 'F':
+        y = x * 9/5 + 32  # Konversi dari Celsius ke Fahrenheit
+    elif sy == 'K':
+        y = x + 273.15  # Konversi dari Celsius ke Kelvin
+elif sx == 'F':
+    if sy == 'C':
+        y = (x - 32) * 5/9  # Konversi dari Fahrenheit ke Celsius
+    elif sy == 'F':
+        y = x  # Tidak ada perubahan
+    elif sy == 'K':
+        y = (x - 32) * 5/9 + 273.15  # Konversi dari Fahrenheit ke Kelvin
+elif sx == 'K':
+    if sy == 'C':
+        y = x - 273.15  # Konversi dari Kelvin ke Celsius
+    elif sy == 'F':
+        y = (x - 273.15) * 9/5 + 32  # Konversi dari Kelvin ke Fahrenheit
+    elif sy == 'K':
+        y = x  # Tidak ada perubahan
 else:
-    st.write("Satuan yang dimasukkan tidak valid. Gunakan C, F, atau K.")
+    st.write("Satuan yang dimasukkan tidak valid. Gunakan 'C', 'F', atau 'K'.")
+
+# Menampilkan hasil konversi
+st.write(x, ' ', sx, ' = ', y, sy)
