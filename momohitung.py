@@ -1,4 +1,4 @@
-impor streamlit as st
+import streamlit as st
 
 x = st.number_input(
   "Insert a number", value=None, placeholder="Type a number..."
